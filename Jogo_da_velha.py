@@ -154,12 +154,19 @@ def obter_jogada(simbolo):
             f"🎮 Jogador {simbolo}, digite uma coordenada (ex: B2): "
         ).upper()
         limpar_tela()
+        mostrar_tabuleiro()
         if resposta in coordenadas_validas:
-            return resposta
+            if verificar_vaga(resposta):
+                return resposta
+            else:
+                limpar_tela()
+                mostrar_tabuleiro()
+                print("Já ocupado!\n")
         else:
             limpar_tela()
             mostrar_tabuleiro()
-            print("⚠️ Entrada inválida! Digite uma coordenada " "como A1, B2, etc")
+            print("⚠️ Entrada inválida! Digite uma coordenada "
+                  "como A1, B2, etc")
 
 
 def computador():
@@ -173,17 +180,16 @@ def computador():
 def jogar_partida():
     vez = 0
     while True:
-        if vez == 1:
-            simbolo_atual = P2
-            vez = 0
-        elif vez == 0:
+        if vez == 0:
             simbolo_atual = P1
             vez = 1
+        elif vez == 1:
+            simbolo_atual = P2
+            vez = 0
         jogada_escolhida = obter_jogada(simbolo_atual)
-        if verificar_vaga(jogada_escolhida):
-            registrar_jogada(jogada_escolhida, simbolo_atual)
-            limpar_tela()
-            mostrar_tabuleiro()
+        registrar_jogada(jogada_escolhida, simbolo_atual)
+        limpar_tela()
+        mostrar_tabuleiro()
         if verificar_vencedor(simbolo_atual):
             limpar_tela()
             mostrar_tabuleiro()
